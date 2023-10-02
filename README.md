@@ -1,0 +1,2 @@
+# lrForStudySecondYear
+Spizdil skaji spasibo
