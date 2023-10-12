@@ -1,0 +1,11 @@
+{
+    "uid": "1223", 
+    "operationUid": "23",
+    "systemName": "WMS",
+    "systemTime": "1",
+    "source": "",
+    "communicationId": 2,
+    "templateId": 8,
+    "productCode": 1500, 
+    "smsCode": 10
+}

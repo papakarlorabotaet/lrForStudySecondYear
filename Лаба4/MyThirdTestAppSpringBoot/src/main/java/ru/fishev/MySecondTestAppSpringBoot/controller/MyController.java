@@ -3,7 +3,6 @@ package ru.fishev.MySecondTestAppSpringBoot.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +17,8 @@ import ru.fishev.MySecondTestAppSpringBoot.service.*;
 import javax.validation.Valid;
 
 import ru.fishev.MySecondTestAppSpringBoot.util.DateTimeUtil;
+
+import java.text.ParseException;
 import java.util.Date;
 
 @RestController
@@ -26,22 +27,25 @@ public class MyController {
 
     private final ValidationService validationService;
     private final UnsupportedService unsupportedService;
-    private final ModifyRequestService modifyRequestService;
-    private final ModifyResponseService modifyResponseService;
+
+    private final ModifySystemTimeResponseService modifySystemTimeResponseService;
+
+    private final FormattedService formattedService;
 
     @Autowired
     public MyController(ValidationService validationService,
                         UnsupportedService unsupportedService,
-                        @Qualifier("SystemName") ModifyRequestService modifyRequestService,
-                        @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService) {
+                        @Qualifier("ModifySystemTimeResponseService") ModifySystemTimeResponseService modifySystemTimeResponseService,
+                        FormattedService formattedService) {
+
         this.validationService = validationService;
         this.unsupportedService = unsupportedService;
-        this.modifyRequestService = modifyRequestService;
-        this.modifyResponseService = modifyResponseService;
+        this.modifySystemTimeResponseService = modifySystemTimeResponseService;
+        this.formattedService = formattedService;
     }
 
     @PostMapping(value = "/feedback")
-    public ResponseEntity<Response> feedback(@Valid @RequestBody Request request, BindingResult bindingResult) {
+    public ResponseEntity<Response> feedback(@Valid @RequestBody Request request, BindingResult bindingResult) throws ParseException {
 
         log.info("request: {}", request);
 
@@ -76,12 +80,11 @@ public class MyController {
             log.error(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        modifyResponseService.modify(response);
-        modifyRequestService.modify(request);
-
-
         log.info("Response: {}", response);
-        return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
+
+
+        formattedService.modifyTime(request, response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

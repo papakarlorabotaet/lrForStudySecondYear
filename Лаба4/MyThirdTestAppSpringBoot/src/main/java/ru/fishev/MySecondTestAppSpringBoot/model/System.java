@@ -7,7 +7,6 @@ public enum System {
     SERVICE("Service 1");
 
 
-
     private final String name;
     System(String name) {
         this.name = name;
