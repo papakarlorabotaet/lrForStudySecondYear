@@ -23,7 +23,6 @@ public class Request {
     @NotBlank
     private String operationUid;
     private System systemName;
-    @NotBlank
     private String systemTime;
     private String source;
     @Min(1)
