@@ -20,11 +20,11 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @GetMapping({"/list","/"})
+    @GetMapping({"/","/list"})
     public ModelAndView getAllStudents(){
         log.info("/list -> connection");
         ModelAndView mav = new ModelAndView("list-students");
-        mav.addObject("student", studentRepository.findAll());
+        mav.addObject("students", studentRepository.findAll());
         return mav;
     }
 
@@ -44,7 +44,7 @@ public class StudentController {
 
     @GetMapping("/showUpdateForm")
     public ModelAndView showUpdateForm(@RequestParam Long studentId){
-        ModelAndView mav = new ModelAndView("add-student-form");
+        ModelAndView mav = new ModelAndView("/add-student-form");
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
         Student student = new Student();
         if (optionalStudent.isPresent()){

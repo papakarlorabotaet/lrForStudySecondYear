@@ -1,16 +1,14 @@
 package com.example.testthymeleafwebapp.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Setter
 @Getter
 @Entity
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "STUDENTS")
 public class Student {
 
@@ -31,14 +29,4 @@ public class Student {
     @Column(name = "age")
     private int age;
 
-    public Student (String name, String surname, String faculty, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.faculty = faculty;
-        this.age = age;
-    }
-
-    public Student() {
-
-    }
 }
